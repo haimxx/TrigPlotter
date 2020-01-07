@@ -6,8 +6,21 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # setting range
-x = np.arange(0, 4*np.pi, 0.1)
-y = np.sin(x)
+start = 0
+end = 4*np.pi
+step = 0.1
 
-plt.plot(x, y)
+x = np.arange(start, end, step)
+y = np.sin(x)
+z = np.cos(x)
+
+xlabel = 'x values from ' + str(start) + ' to ' + str(end)
+title = 'Plot of sin and cos from ' + str(start) + ' to ' + str(end)
+
+plt.xlabel(xlabel)
+plt.ylabel('sin(x) and cos(x)')
+plt.title(title)
+plt.legend(['sin(x)', 'cos(x)'])
+
+plt.plot(x, y, x, z)
 plt.show()
