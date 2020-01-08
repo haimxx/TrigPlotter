@@ -2,6 +2,7 @@
 
 # author: Haim
 
+import sys
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -31,25 +32,47 @@ def check_values(start, end, step):
         print("Non-positive value for step argument! Using default value")
         step = default_step
 
+    return start, end, step
 
-# setting range
-try:
-    with open(file_name) as fo:
-        info = fo.read()
-    start, end, step = [float(i) for i in info.split()]
-except FileNotFoundError:
-    print("File wasn't found! Using default values")
+
+def load_args_from_file():
+    """
+    Loading arguments values from file, or default values if file
+    doesn't exist
+    """
+
+    try:
+        with open(file_name) as fo:
+            info = fo.read()
+        start, end, step = map(float, info.split())
+    except FileNotFoundError:
+        print("File wasn't found! Using default values")
+        start, end, step = default_start, default_end, default_step
+
+    return start, end, step
+
+
+# setting arg values
+if len(sys.argv) == 1:
+    start, end, step = load_args_from_file()
+elif len(sys.argv) != 4:
+    print("Wrong argument number!\n Usage: start, end, step\n Using default values")
     start, end, step = default_start, default_end, default_step
+else:
+    sys.argv.pop(0)
+    start, end, step = map(float, sys.argv)
+    print(start, end, step)
 
 # sanity check
-check_values(start, end, step)
+start, end, step = check_values(start, end, step)
 
 x = np.arange(start*np.pi, end*np.pi, step)
 y = np.sin(x)
 z = np.cos(x)
 
 xlabel = "x"
-title = "Plot of sine and cosine from " + str(start) + "π to " + str(end) + "π"
+title = "Plot of sine and cosine from " + \
+    str(start) + "π to " + str(end) + "π" + " in " + str(step) + " steps"
 
 plt.xlabel(xlabel)
 plt.ylabel("sin(x) and cos(x)")
