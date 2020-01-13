@@ -16,9 +16,7 @@ default_step = 0.1
 
 
 def check_values(start, end, step):
-    """
-    Function to check whether start, end and step values are valid
-    """
+    """Function to check whether start, end and step values are valid"""
 
     if start == end:
         print("Start and end values must be different! Using default values")
@@ -36,10 +34,7 @@ def check_values(start, end, step):
 
 
 def load_args_from_file():
-    """
-    Loading arguments values from file, or default values if file
-    doesn't exist
-    """
+    """Loading arguments values from file, or default values if file doesn't exist"""
 
     try:
         with open(file_name) as fo:
@@ -59,9 +54,7 @@ elif len(sys.argv) != 4:
     print("Wrong argument number!\n Usage: start, end, step\n Using default values")
     start, end, step = default_start, default_end, default_step
 else:
-    sys.argv.pop(0)
-    start, end, step = map(float, sys.argv)
-    print(start, end, step)
+    start, end, step = map(float, sys.argv[1:])
 
 # sanity check
 start, end, step = check_values(start, end, step)
@@ -71,13 +64,14 @@ y = np.sin(x)
 z = np.cos(x)
 
 xlabel = "x"
-title = "Plot of sine and cosine from " + \
-    str(start) + "π to " + str(end) + "π" + " in " + str(step) + " steps"
+ylabel = "sin(x) and cos(x)"
+title = f"Plot of sine and cosine from {str(start)}π to {str(end)}π in {str(step)} steps"
+legend = ["sin(x)", "cos(x)"]
 
 plt.xlabel(xlabel)
-plt.ylabel("sin(x) and cos(x)")
+plt.ylabel(ylabel)
 plt.title(title)
-plt.legend(["sin(x)", "cos(x)"])
-
 plt.plot(x, y, x, z)
+plt.legend(legend)
+
 plt.show()
